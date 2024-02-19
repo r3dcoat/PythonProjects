@@ -109,7 +109,7 @@ __________                __             _____     _____
         \/      \/     \/     \/                        \/            \/     \/\/     
     """)
     print("For us to help you today please login or if you are new, create an account. Enter 1 for login or enter 2 for account creation.")
-    print("1) Login")
+    print("1) Login") 
     print("2) Create an account")
     user_choice = input()
     if user_choice == str(1):
