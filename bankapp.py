@@ -94,12 +94,61 @@ def display_balance():
             print(f"Your current balance is ${account[2]}")
             return
 
+# Function to transfer money from one account to another. 
+def transfer_money():
+    global user_accounts, logged_in_account
+    target_user = input("What user account to transfer funds to. Enter their email address: ")
+    transfer_amount = float(input("Enter the dollar amount you wish to transfer: "))
 
+    # Users are not to transfer money to themselves. 
+    if target_user == logged_in_account:
+        print("You cannot transfer money to your own account.")
+        return
 
+    target_account_found = False
+    for account in user_accounts:
+        if account[0] == target_user:
+            target_account_found = True
+            break
+    
+    if not target_account_found:
+        print("An account with that email address has not been found. Please try again later.")
+        return
 
+    for account in user_accounts:
+         if account[0] == logged_in_account:
+            if account[2] >= transfer_amount:
+                account[2] -= transfer_amount
+                for target_account in user_accounts:
+                    if target_account[0] == target_user:
+                        target_account[2] += transfer_amount
+                        print(f"Transfer of ${transfer_amount} has been sent. Your current balance is ${account[2]}")
+                        return
+            else:
+                print("Insufficient funds for this transfer.")
+                return                    
+
+#Functions to save accounts to a file and to load the accounts when the application is opened
+def save_accounts_to_file():
+    with open('user_accounts.txt', 'w') as file:
+        for account in user_accounts:
+            account_data = [account[0], account[1], str(account[2])]
+            file.write(','.join(account_data) + '\n')
+
+def load_accounts_from_file():
+    global user_accounts
+    try:
+        with open('user_accounts.txt', 'r') as file:
+            for line in file:
+                email, hashed_password, balance_str = line.strip().split(',')
+                balance = float(balance_str)
+                user_accounts.append([email, hashed_password, balance ])
+    except FileNotFoundError:
+        user_awccounts = []
 
 ### Application Running Section ###
 while app_running == True:
+    load_accounts_from_file()
     print(r"""
 __________                __             _____     _____                              
 \______   \_____    ____ |  | __   _____/ ____\   /     \   ____   ____   ____ ___.__.
@@ -117,6 +166,7 @@ __________                __             _____     _____
     elif user_choice == str(2):
         create_account()
     elif user_choice.lower() == "exit" or user_choice.lower() == "quit":
+        save_accounts_to_file()
         app_running = False
     else:
         print("Please select option 1 or 2.")
@@ -135,7 +185,7 @@ __________                __             _____     _____
         elif user_choice == "3":
             display_balance()
         elif user_choice == "4":
-            print("This is not yet completed")
+            transfer_money()
         elif user_choice == "5":
             print("You are now logged out")
             logged_in = False
