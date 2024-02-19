@@ -20,7 +20,7 @@ logged_in_account = ""
 
 def hash_password(password):
     """Hash a password for storing"""
-    return hashlib.sha256(password.encode()).hexdigest()
+    return hashlib.sha256(password.encode()).hexdigest() # Once I learn a bit more about hashing I should be salting these.
 
 # This function will create the account of the user and then log the user in after account creation
 def create_account():
