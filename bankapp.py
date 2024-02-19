@@ -163,8 +163,10 @@ __________                __             _____     _____
     user_choice = input()
     if user_choice == str(1):
         user_login()
+        save_accounts_to_file()
     elif user_choice == str(2):
         create_account()
+        save_accounts_to_file()
     elif user_choice.lower() == "exit" or user_choice.lower() == "quit":
         save_accounts_to_file()
         app_running = False
@@ -180,14 +182,19 @@ __________                __             _____     _____
         user_choice = input()
         if user_choice == "1":
             deposit_money()
+            save_accounts_to_file()
         elif user_choice == "2":
             withdraw_money()
+            save_accounts_to_file()
         elif user_choice == "3":
             display_balance()
+            save_accounts_to_file()
         elif user_choice == "4":
             transfer_money()
+            save_accounts_to_file()
         elif user_choice == "5":
             print("You are now logged out")
+            save_accounts_to_file()
             logged_in = False
         else:
             print("Invalid option")
